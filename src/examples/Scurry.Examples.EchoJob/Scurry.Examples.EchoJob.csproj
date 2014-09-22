@@ -56,6 +56,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="EchoScheduleTest.json" />
     <None Include="job.config" />
     <None Include="packages.config" />
   </ItemGroup>

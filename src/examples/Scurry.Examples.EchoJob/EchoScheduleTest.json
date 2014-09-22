@@ -1,0 +1,8 @@
+﻿{
+	"name" : "echo",
+	"queue" : {
+		"name" : "echo",
+		"host" : "localhost"
+	},
+	"message" : "This is a test of the EchoJob"
+}
