@@ -10,6 +10,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tools.XmlConfigMerge;
 
 namespace Scurry.Executor.Manager
 {
@@ -135,7 +136,7 @@ namespace Scurry.Executor.Manager
             {
                 ApplicationName = dirInfo.Name,
                 ApplicationBase = dir,
-                ConfigurationFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile
+                ConfigurationFile = MergeJobConfig(dir)
             };
 
             Evidence evidence = new Evidence(AppDomain.CurrentDomain.Evidence);
@@ -143,6 +144,25 @@ namespace Scurry.Executor.Manager
             Resolve(appDomain);
             
             return appDomain;
+        }
+
+        private string MergeJobConfig(string dir)
+        {
+            ConfigFileManager config = null;
+            var appConfig = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+            
+            if (File.Exists(Path.Combine(dir, "job.config")))
+            {
+                var jobConfig = Path.Combine(dir, "job.config");
+                config = new ConfigFileManager(appConfig, jobConfig);
+            }
+            else
+            {
+                config = new ConfigFileManager(appConfig);
+            }
+
+            config.Save(Path.Combine(dir, "app.config"));
+            return Path.Combine(dir, "app.config");
         }
 
         private void Resolve(AppDomain appDomain)
