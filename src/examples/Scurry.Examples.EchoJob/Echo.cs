@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,9 @@ namespace Scurry.Examples.EchoJob
         // Execute will be called anytime a message is dropped on the queue.
         protected override void Execute(dynamic context)
         {
-            Log.Debug(string.Format("Echoing context {0}", context));
+            Log.Debug(string.Format(
+                "{0}Echoing context {1}",
+                ConfigurationManager.AppSettings["MessagePrefix"], context));
         }
     }
 }
