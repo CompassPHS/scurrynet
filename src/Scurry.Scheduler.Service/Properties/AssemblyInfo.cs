@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Scheduler.Service")]
+[assembly: AssemblyTitle("Scurry.Scheduler.Service")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Compass PHS")]
-[assembly: AssemblyProduct("Compass Queue Scheduler Service")]
+[assembly: AssemblyCompany("CompassPHS")]
+[assembly: AssemblyProduct("Scurry")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
