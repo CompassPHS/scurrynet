@@ -35,7 +35,7 @@ namespace Scurry.Executor.Loader
                 }
             }
 
-            throw new ReflectionTypeLoadException(null, null, string.Format("Could not load assembly {0}", fileName));
+            return null;
         }
     }
 }
