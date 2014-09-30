@@ -6,6 +6,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting;
 using System.Security.Policy;
 using System.Text;
 using System.Threading;
@@ -97,10 +98,17 @@ namespace Scurry.Executor.Manager
         public void UnloadJobs()
         {
             // Cancel all of the running jobs, each job will run to completion before cancelling
-            foreach (var job in Jobs.Keys) job.Stop();
-            Task.WaitAll(Jobs.Values.Select<Tuple<Task, AppDomain>, Task>(tuple =>
-                tuple.Item1).ToArray()); // Add timeout?
-            
+            try
+            {
+                foreach (var job in Jobs.Keys) job.Stop();
+                Task.WaitAll(Jobs.Values.Select<Tuple<Task, AppDomain>, Task>(tuple =>
+                    tuple.Item1).ToArray()); // Add timeout?
+            }
+            catch (RemotingException re)
+            {
+                Log.Error("Communication error occurred while stopping jobs", re);
+            }
+
             // Unload all of the application domains
             foreach (var job in Jobs.Keys)
             {
