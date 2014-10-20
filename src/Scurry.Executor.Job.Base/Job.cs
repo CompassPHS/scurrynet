@@ -41,7 +41,7 @@ namespace Scurry.Executor.Job.Base
             Name = name;
 
             // Grab queue settings from config
-            string queueHost = ConfigurationManager.AppSettings["queueHost"];
+            string queueHost = ConfigurationManager.AppSettings["queueHost"] ?? "localhost";
 
             if (!string.IsNullOrWhiteSpace(queueHost))
                 Queue = new Queue() { Name = name, Host = queueHost };
@@ -77,7 +77,7 @@ namespace Scurry.Executor.Job.Base
             Log.Info(string.Format("Created job {0} with queue {1} on {2}", name, Queue.Name, Queue.Host));
         }
 
-        protected abstract void Execute(dynamic context);
+        public abstract void Execute(dynamic context);
 
         public void Start()
         {

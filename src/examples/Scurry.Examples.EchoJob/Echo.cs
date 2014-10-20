@@ -21,7 +21,7 @@ namespace Scurry.Examples.EchoJob
 
         // Implement the execute, context will either be a string value or a JSON object
         // Execute will be called anytime a message is dropped on the queue.
-        protected override void Execute(dynamic context)
+        public override void Execute(dynamic context)
         {
             Log.Debug(string.Format(
                 "{0}Echoing context {1}",
