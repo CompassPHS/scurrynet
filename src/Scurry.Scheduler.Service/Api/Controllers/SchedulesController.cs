@@ -40,6 +40,20 @@ namespace Scurry.Scheduler.Service.Api.Controllers
             }
         }
 
+        // POST api/Schedules
+        public HttpResponseMessage Post(Job jobContext)
+        {
+            try
+            {
+                SchedulerWrapper.Wrapper.ScheduleJob(jobContext);
+                return Request.CreateResponse(HttpStatusCode.Created);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
         // DELETE api/Schedules/{name}
         public HttpResponseMessage Delete(string name)
         {
