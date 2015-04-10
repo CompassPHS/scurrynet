@@ -13,6 +13,19 @@ namespace Scurry.Scheduler.Service.Api.Controllers
 {
     public class SchedulesController : ApiController
     {
+        // GET api/Schedules
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                return Request.CreateResponse<IEnumerable<Job>>(HttpStatusCode.OK, SchedulerWrapper.Wrapper.GetJobs());
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
         // GET api/Schedules/{name}
         public HttpResponseMessage Get(string name)
         {

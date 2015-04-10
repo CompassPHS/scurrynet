@@ -10,6 +10,7 @@ using Scurry.Scheduler.Queue;
 using Scurry.Scheduler.Queue.Contexts;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Quartz.Impl.Matchers;
 
 namespace Scurry.Scheduler.Quartz
 {
@@ -59,6 +60,36 @@ namespace Scurry.Scheduler.Quartz
                 _scheduler.DeleteJob(new JobKey(jobContext.Name));
 
             _scheduler.ScheduleJob(job, trigger);
+        }
+
+        public IEnumerable<Job> GetJobs()
+        {
+            try
+            {
+                var jobs = new List<Job>();
+                
+                IList<string> jobGroups = _scheduler.GetJobGroupNames();
+
+                foreach (string group in jobGroups)
+                {
+                    var groupMatcher = GroupMatcher<JobKey>.GroupContains(group);
+                    var jobKeys = _scheduler.GetJobKeys(groupMatcher);
+                    
+                    foreach (var jobKey in jobKeys)
+                    {
+                        var jobDetail = _scheduler.GetJobDetail(jobKey);
+                        var dataMap = jobDetail.JobDataMap;
+                        var jobContext = GetContextFromJobDataMap(jobKey.Name, dataMap);
+                        jobs.Add(jobContext);
+                    }
+                }
+
+                return jobs;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(string.Format("There was an error retrieving the job detail"), ex);
+            }
         }
 
         public Job GetJob(string name)
