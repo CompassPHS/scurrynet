@@ -83,7 +83,7 @@ namespace Scurry.Executor.Job.Base
         {
             try
             {
-                var factory = new ConnectionFactory() { HostName = Queue.Host };
+                var factory = new ConnectionFactory() { Uri = Queue.Host };
                     
                 using (var connection = factory.CreateConnection())
                 {
